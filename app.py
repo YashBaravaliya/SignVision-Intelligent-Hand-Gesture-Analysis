@@ -15,6 +15,9 @@ class App(tk.Tk):
         self.title("SignVision: Intelligent Hand Gesture Analysis")
         self.geometry("1100x580")
         self.resizable(width=False, height=False)
+        ico = Image.open('images\logo.jpg')
+        photo = ImageTk.PhotoImage(ico)
+        self.wm_iconphoto(False, photo)
 
         style = ttk.Style()
 
@@ -29,16 +32,6 @@ class App(tk.Tk):
         # self.collect_Data_tab(CollectData)
         self.tabview.add(CollectData, text="Collect Data")
 
-        # Embedding =  Embbedings(self.tabview)
-        # self.collect_Data_tab(CollectData)
-        # self.tabview.add(Embedding, text="Collect Data")
-
-        TrainData = tk.Frame(self.tabview)
-        self.train_Data_tab(TrainData)
-        self.tabview.add(TrainData, text="Train Data")
-
-    def train_Data_tab(self,tab):
-        pass
 
 
 if __name__ == "__main__":
