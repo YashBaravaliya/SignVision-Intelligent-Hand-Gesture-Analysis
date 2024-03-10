@@ -7,6 +7,7 @@ import numpy as np
 
 
 def train_hand_gesture_model(data_path, model_folder, model_name):
+    
     mp_hands = mp.solutions.hands
     mp_drawing_styles = mp.solutions.drawing_styles
 
@@ -47,11 +48,13 @@ def train_hand_gesture_model(data_path, model_folder, model_name):
 
                 data.append(data_aux)
                 labels.append(dir_)
-
+        # print(dir_)
+    
     # Train the model
     model = RandomForestClassifier()
     data_array = np.asarray(data)
     labels_array = np.asarray(labels)
+
 
     model.fit(data_array, labels_array)
 
@@ -68,6 +71,12 @@ def train_hand_gesture_model(data_path, model_folder, model_name):
         pickle.dump({'model': model}, model_file)
 
     print(f'Model saved successfully at: {model_path}')
+
+    os.makedirs(model_folder, exist_ok=True)
+    with open(os.path.join("model", model_name[:-2]+'.txt'), 'w') as f:
+        for idx,label in enumerate(os.listdir(data_path)):
+            f.write('{} {}\n'.format(str(label), idx))
+            
 
 
 # Example usage:

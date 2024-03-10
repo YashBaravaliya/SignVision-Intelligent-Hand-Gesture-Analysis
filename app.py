@@ -13,7 +13,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("SignVision: Intelligent Hand Gesture Analysis")
-        self.geometry("1100x580")
+        self.geometry("1100x620")
         self.resizable(width=False, height=False)
         ico = Image.open('images\logo.jpg')
         photo = ImageTk.PhotoImage(ico)
@@ -31,7 +31,6 @@ class App(tk.Tk):
         CollectData = CollectDataTab(self.tabview)
         # self.collect_Data_tab(CollectData)
         self.tabview.add(CollectData, text="Collect Data")
-
 
 
 if __name__ == "__main__":

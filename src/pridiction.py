@@ -3,7 +3,7 @@ import mediapipe as mp
 import numpy as np
 import pickle
 
-def perform_hand_gesture_recognition(model_path, data_txt):
+def perform_hand_gesture_recognition(model_path, data_txt, confidence_threshold=0.7):
     # Load the model
     model_dict = pickle.load(open(model_path, 'rb'))
     model = model_dict['model']
@@ -68,13 +68,19 @@ def perform_hand_gesture_recognition(model_path, data_txt):
             prediction = model.predict([np.asarray(data_aux)])
 
             numeric_class_label = str(prediction[0])
+            prediction_confidence = model.predict_proba([np.asarray(data_aux)])[0].max()
             predicted_class_name = labels_dict.get(numeric_class_label, 'Unknown')
 
             print("Predicted Class Label (Numeric):", numeric_class_label)
             print("Predicted Class Name:", predicted_class_name)
+            print("Prediction Confidence:", prediction_confidence)
+
+            if prediction_confidence < confidence_threshold:
+                predicted_class_name = 'Unknown'
+                numeric_class_label = "?"
 
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
-            cv2.putText(frame, str(numeric_class_label), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
+            cv2.putText(frame, f"{numeric_class_label} {predicted_class_name}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 255, 0), 3, cv2.LINE_AA)
 
         cv2.imshow('frame', frame)
 
